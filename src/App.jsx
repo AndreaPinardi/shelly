@@ -1,9 +1,16 @@
 import { useEffect } from "react";
 import "./App.css";
+import Form from "./Form";
+import '@mantine/core/styles.css';
+import { MantineProvider, createTheme } from "@mantine/core";
 
-const deviceId = "c82e180baa70";
-const authKey =
-  "MjE2ZTM2dWlkA295752D04067728B2D9F50FAA56716B163725FA16835174B8F498CFB8CEA9165CCA04CB8567D434";
+const theme = createTheme({
+  /** Put your mantine theme override here */
+});
+
+const deviceId = import.meta.env.VITE_DEVICE_ID;
+const authKey = import.meta.env.VITE_AUTH_KEY
+
 
 function App() {
   useEffect(() => {
@@ -13,16 +20,17 @@ function App() {
         {
           method: "POST",
           headers: {
-            id: deviceId,
-            auth_key: authKey,
-          },
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+          body: `id=${encodeURIComponent(deviceId)}&auth_key=${encodeURIComponent(authKey)}`
         }
       );
-      console.log(res);
+      const {data} = await res.json();
+      console.log(data);
     };
     fetchData();
   }, []);
-  return <>ciao</>;
+  return <><MantineProvider theme={theme}><Form/>     </MantineProvider></>;
 }
 
 export default App;
