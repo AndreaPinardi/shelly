@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextInput, Button, PasswordInput } from '@mantine/core';
+import { Button, PasswordInput } from '@mantine/core';
 
 function PasswordInputWithValidation() {
   const [password, setPassword] = useState('');
