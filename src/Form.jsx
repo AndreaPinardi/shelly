@@ -1,41 +1,71 @@
-import React, { useState } from 'react';
-import { Button, PasswordInput } from '@mantine/core';
+import React, { useState } from "react";
+import { Button, PasswordInput } from "@mantine/core";
 
-function PasswordInputWithValidation() {
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+const deviceId = import.meta.env.VITE_DEVICE_ID;
+const authKey = import.meta.env.VITE_AUTH_KEY;
+const CODE = import.meta.env.VITE_CODE;
+const channelId = 0;
 
-  const validatePassword = () => {
-    if (password.length < 8) {
-      setError('Password must be at least 8 characters long');
+function Form({ isSwitchOn }) {
+  const [code, setCode] = useState("");
+  const [error, setError] = useState("");
+  const [command, setCommand] = useState(isSwitchOn ? "off" : "on");
+
+  const validateCode = () => {
+    if (code != CODE) {
+      setError("Codice Errato!");
       return false;
     }
-    // Add more validation rules as needed
-    setError('');
+    setError("");
+    setCode("");
     return true;
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (validatePassword()) {
-      // Submit your form or handle the password
-      console.log('Password is valid:', password);
+    if (validateCode()) {
+      fetch(`https://shelly-94-eu.shelly.cloud/device/relay/control`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `channel=${encodeURIComponent(
+          channelId
+        )}&turn=${encodeURIComponent(command)}&id=${encodeURIComponent(
+          deviceId
+        )}&auth_key=${encodeURIComponent(authKey)}`,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setCommand((command) => (command === "off" ? "on" : "off"));
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
+  };
+
+  const handleChange = (event) => {
+    setCode(event.currentTarget.value);
+    setError("");
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <PasswordInput
-        label="Password"
-        placeholder="Enter your password"
-        value={password}
-        onChange={(event) => setPassword(event.currentTarget.value)}
+        label="Codice di sicurezza"
+        placeholder="Inserisci il codice di sicurezza"
+        value={code}
+        onChange={handleChange}
         error={error}
         required
       />
-      <Button type="submit">Submit</Button>
+      <Button type="submit">
+        {command === "off" ? "SPEGNI ALLARME" : "ACCENDI ALLARME"}
+      </Button>
     </form>
   );
 }
 
-export default PasswordInputWithValidation;
+export default Form;
