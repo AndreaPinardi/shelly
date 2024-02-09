@@ -6,8 +6,8 @@ import { MantineProvider, createTheme } from "@mantine/core";
 
 const theme = createTheme({});
 
-const deviceId = import.meta.env.DEVICE_ID;
-const authKey = import.meta.env.AUTH_KEY;
+const deviceId = import.meta.env.PROD.DEVICE_ID;
+const authKey = import.meta.env.PROD.AUTH_KEY;
 
 function App() {
   useEffect(() => {
