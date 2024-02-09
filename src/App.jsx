@@ -4,17 +4,16 @@ import Form from "./Form";
 import "@mantine/core/styles.css";
 import { MantineProvider, createTheme } from "@mantine/core";
 
-const theme = createTheme({});
+const theme = createTheme({
+  /** Put your mantine theme override here */
+});
 
-const deviceId = import.meta.env.PROD.DEVICE_ID;
-const authKey = import.meta.env.PROD.AUTH_KEY;
+const deviceId = import.meta.env.VITE_DEVICE_ID;
+const authKey = import.meta.env.VITE_AUTH_KEY;
 
 function App() {
   useEffect(() => {
     const fetchData = async () => {
-      if (!deviceId && !authKey) {
-        return;
-      }
       const res = await fetch(
         "https://shelly-94-eu.shelly.cloud/device/status",
         {
