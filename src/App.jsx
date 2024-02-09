@@ -4,9 +4,7 @@ import Form from "./Form";
 import "@mantine/core/styles.css";
 import { MantineProvider, createTheme } from "@mantine/core";
 
-const theme = createTheme({
-  /** Put your mantine theme override here */
-});
+const theme = createTheme({});
 
 const deviceId = import.meta.env.DEVICE_ID;
 const authKey = import.meta.env.AUTH_KEY;
