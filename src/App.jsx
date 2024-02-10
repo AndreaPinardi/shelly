@@ -8,8 +8,8 @@ const theme = createTheme({
   /** Put your mantine theme override here */
 });
 
-const deviceId = import.meta.env.DEVICE_ID;
-const authKey = import.meta.env.AUTH_KEY;
+const deviceId = import.meta.env.VITE_DEVICE_ID;
+const authKey = import.meta.env.VITE_AUTH_KEY;
 
 const getDeviceData = async (onSuccess) => {
   try {

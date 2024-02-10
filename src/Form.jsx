@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Button, PasswordInput } from "@mantine/core";
 
-const deviceId = import.meta.env.DEVICE_ID;
-const authKey = import.meta.env.AUTH_KEY;
-const CODE = import.meta.env.CODE;
+const deviceId = import.meta.env.VITE_DEVICE_ID;
+const authKey = import.meta.env.VITE_AUTH_KEY;
+const CODE = import.meta.env.VITE_CODE;
 const channelId = 0;
 
 function Form({ isSwitchOn }) {
